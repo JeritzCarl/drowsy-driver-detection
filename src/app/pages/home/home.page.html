@@ -1,0 +1,205 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Driver Drowsiness Detection</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- 🔹 Intro -->
+  <div class="header-text ion-text-center">
+    <h2>Real-time monitoring system for driver safety</h2>
+  </div>
+
+  <!-- 🔹 Grid Layout -->
+  <ion-grid>
+    <ion-row>
+      <!-- 🎥 Camera -->
+      <ion-col size="12" sizeMd="8">
+        <ion-card class="camera-card">
+          <ion-card-header>
+            <ion-card-title>Live Camera Feed</ion-card-title>
+            <ion-button
+              [color]="isMonitoring ? 'danger' : 'success'"
+              size="small"
+              (click)="isMonitoring ? stopMonitoring() : startMonitoring()"
+            >
+              {{ isMonitoring ? 'Stop Monitoring' : 'Start Monitoring' }}
+            </ion-button>
+          </ion-card-header>
+
+          <ion-card-content>
+            <div class="camera-view">
+              <ng-container *ngIf="!isMonitoring">
+                <div class="placeholder ion-text-center">
+                  <ion-icon name="eye-outline" size="large"></ion-icon>
+                  <p>Click “Start Monitoring” to begin</p>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="isMonitoring">
+                <div class="video-wrapper">
+                  <video
+                    #video
+                    autoplay
+                    muted
+                    playsinline
+                    webkit-playsinline
+                    class="camera-video"
+                    style="width: 100%; height: auto; transform: scaleX(-1);"
+                  ></video>
+                  <canvas
+                    #overlay
+                    class="overlay"
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: auto;"
+                  ></canvas>
+                </div>
+              </ng-container>
+            </div>
+
+            <div class="status-bar ion-margin-top ion-text-center">
+              <ion-chip
+                [color]="
+                  status === 'Safe'
+                    ? 'success'
+                    : status === 'Warning'
+                    ? 'warning'
+                    : 'danger'
+                "
+              >
+                {{ status }}
+              </ion-chip>
+              <span class="ion-padding-start">Score: {{ score }}%</span>
+            </div>
+
+            <div
+              class="metrics ion-margin-top ion-text-center"
+              *ngIf="detection.metrics$ | async as m"
+            >
+              <ion-card-subtitle>Eye Closure: {{ m.eyeClosure }}%</ion-card-subtitle>
+              <ion-card-subtitle>Blink Rate: {{ m.blinkRate }}/min</ion-card-subtitle>
+              <ion-card-subtitle>Head Pose: {{ m.headPose }}°</ion-card-subtitle>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <!-- ⚙️ Alerts / Events -->
+      <ion-col size="12" sizeMd="4">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Alert Settings</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-toggle color="success" [(ngModel)]="soundEnabled">Sound Alerts</ion-toggle>
+            <ion-toggle color="warning" [(ngModel)]="vibrationEnabled">Vibration</ion-toggle>
+
+            <!-- 🔔 Alarm Sound Selector -->
+            <ion-item button detail="true" (click)="openSoundSettings()">
+              <ion-label>
+                <h3>Alarm Sound</h3>
+                <p>{{ selectedSoundName || 'Default Alarm' }}</p>
+              </ion-label>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Recent Events</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p *ngIf="logs.length === 0">No events logged yet</p>
+
+            <ion-list *ngIf="logs.length > 0">
+              <ion-item *ngFor="let log of logs.slice(0, 5)">
+                <ion-badge
+                  slot="start"
+                  [color]="
+                    log.level === 'critical'
+                      ? 'danger'
+                      : log.level === 'warning'
+                      ? 'warning'
+                      : 'medium'
+                  "
+                  style="min-width: 72px; text-align: center; font-weight: 600;"
+                >
+                  {{ log.level | titlecase }}
+                </ion-badge>
+
+                <ion-label>
+                  <h3>{{ log.reason || log.detail }}</h3>
+                  <p>{{ log.time | date: 'short' }}</p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <!-- 🔹 Dashboard -->
+    <ion-row>
+      <ion-col size="12" sizeMd="4">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Risk Assessment</ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-text-center">
+            <h2 [ngClass]="status.toLowerCase()">{{ status }}</h2>
+            <ion-progress-bar
+              [value]="score / 100"
+              [color]="
+                status === 'Safe'
+                  ? 'success'
+                  : status === 'Warning'
+                  ? 'warning'
+                  : 'danger'
+              "
+            ></ion-progress-bar>
+            <p class="ion-margin-top">Overall Risk: {{ score }}%</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="12" sizeMd="4">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Eye Activity</ion-card-title>
+          </ion-card-header>
+          <ion-card-content *ngIf="detection.metrics$ | async as m">
+            <p>Eye Closure: {{ m.eyeClosure }}%</p>
+            <ion-progress-bar [value]="m.eyeClosure / 100" color="warning"></ion-progress-bar>
+            <p class="ion-margin-top">Blink Rate: {{ m.blinkRate }}/min</p>
+            <ion-progress-bar [value]="m.blinkRate / 60" color="primary"></ion-progress-bar>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="12" sizeMd="4">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Head Pose</ion-card-title>
+          </ion-card-header>
+          <ion-card-content *ngIf="detection.metrics$ | async as m">
+            <p>Deviation: {{ m.headPose }}°</p>
+            <ion-progress-bar [value]="m.headPose / 45" color="tertiary"></ion-progress-bar>
+            <p class="ion-margin-top">Total Blinks: {{ detection.blinkCount }}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- 🧾 Summary -->
+  <ion-card *ngIf="sessionSummaryVisible" class="session-summary ion-margin-top">
+    <ion-card-header>
+      <ion-card-title>Session Summary</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Duration:</strong> {{ sessionDuration }}</p>
+      <p><strong>Average Blink Rate:</strong> {{ averageBlinkRate | number: '1.0-1' }}/min</p>
+      <p><strong>Average Risk Score:</strong> {{ averageRisk }}%</p>
+      <p><strong>Total Alerts:</strong> {{ totalAlerts }}</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,400 @@
+ion-content {
+  --background: #0e1628;
+  color: #f1f5fb;
+  font-family: 'Inter', sans-serif;
+}
+
+/* 🔹 Header Text */
+.header-text {
+  text-align: center;
+  color: #e6ecfa;
+  margin: 12px 0 18px;
+  h2 {
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: 0.3px;
+    color: #ffffff;
+  }
+}
+
+/* 🔹 Section Titles (Alert Settings, Recent Events, etc.) */
+ion-card-title,
+.section-title,
+ion-label {
+  color: #9fc7ff !important;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.4px;
+}
+
+/* 🔹 Card Containers */
+ion-card {
+  background: #16213a;
+  color: #f9fbff;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: 0.25s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  }
+}
+
+/* 🔹 Camera Section */
+.camera-card {
+  position: relative;
+}
+
+.camera-view {
+  background: linear-gradient(180deg, #111b30 0%, #0e1628 100%);
+  border-radius: 10px;
+  overflow: hidden;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  video,
+  canvas {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+
+  .placeholder {
+    text-align: center;
+    color: #b7c4dd;
+    ion-icon {
+      font-size: 2.4rem;
+      color: #7da6ff;
+      margin-bottom: 6px;
+    }
+  }
+}
+
+/* 🔹 Buttons */
+ion-button {
+  font-weight: 600;
+  --color: #fff;
+  --border-radius: 10px;
+  --padding-start: 14px;
+  --padding-end: 14px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+/* 🟢 Start Monitoring Button */
+ion-button.start {
+  --background: linear-gradient(135deg, #2ecc71, #00b894);
+  box-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+}
+
+/* 🔴 Stop Monitoring Button */
+ion-button.stop {
+  --background: linear-gradient(135deg, #ff4b4b, #c0392b);
+  box-shadow: 0 0 10px rgba(255, 75, 75, 0.5);
+}
+
+/* 🔹 Status Bar */
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #f2f5ff;
+}
+
+/* 🔹 Metrics */
+.metrics {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #dce4f5;
+
+  ion-card-subtitle {
+    font-weight: 500;
+  }
+}
+
+/* 🔹 Progress Bars */
+ion-progress-bar {
+  height: 8px;
+  border-radius: 8px;
+  margin-top: 4px;
+  --background: rgba(255, 255, 255, 0.15);
+}
+
+/* 🔹 State Colors */
+.safe {
+  color: #00e676;
+}
+.warning {
+  color: #fbc02d;
+}
+.danger {
+  color: #ff5252;
+}
+
+/* 🔹 Toggles */
+ion-toggle {
+  margin-bottom: 12px;
+  --background: rgba(255, 255, 255, 0.1);
+  --background-checked: #2f80ed;
+  --handle-background-checked: #ffffff;
+  --handle-background: #cfd9ec;
+}
+
+/* 🔹 Session Summary */
+.session-summary {
+  background: #1b2a47;
+  color: #f0f4ff;
+  border-left: 4px solid #2f80ed;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  ion-card-title {
+    font-weight: 600;
+    color: #2f80ed;
+  }
+  p {
+    margin: 6px 0;
+    font-size: 0.95rem;
+  }
+}
+
+/* 🔹 Video Wrapper */
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.camera-video,
+.overlay {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* 🔹 Mobile Adjustments */
+@media (max-width: 992px) {
+  .camera-view {
+    height: 210px;
+  }
+  ion-card {
+    margin-bottom: 18px;
+  }
+}
+
+@media (max-width: 576px) {
+  .header-text h2 {
+    font-size: 1.05rem;
+  }
+  .status-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+/* 🎚️ Alert Settings layout fix */
+ion-card-title {
+  font-weight: 600;
+  color: #9fc7ff;
+  font-size: 1.05rem;
+  letter-spacing: 0.4px;
+}
+
+/* Fix alignment of toggles inside Alert Settings */
+ion-card-content ion-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 6px 0;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #f1f5fb;
+  font-size: 0.95rem;
+}
+
+/* Slight hover highlight for better touch feedback */
+ion-card-content ion-toggle:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transition: 0.2s ease;
+}
+
+/* Adjust toggle size and color contrast */
+ion-toggle {
+  --handle-background: #e0e6f8;
+  --handle-background-checked: #fff;
+  --background: rgba(255, 255, 255, 0.15);
+  --background-checked: #2f80ed;
+  transform: scale(0.95);
+}
+
+/* 🧩 Mobile-friendly tweak */
+@media (max-width: 576px) {
+  ion-card-content ion-toggle {
+    font-size: 0.9rem;
+    padding: 4px 6px;
+  }
+}
+
+
+/* 🎚️ Alert Settings layout fix */
+ion-card-title {
+  font-weight: 600;
+  color: #9fc7ff;
+  font-size: 1.05rem;
+  letter-spacing: 0.4px;
+}
+
+/* Fix alignment of toggles inside Alert Settings */
+ion-card-content ion-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 6px 0;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #f1f5fb;
+  font-size: 0.95rem;
+}
+
+/* Slight hover highlight for better touch feedback */
+ion-card-content ion-toggle:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transition: 0.2s ease;
+}
+
+/* Adjust toggle size and color contrast */
+ion-toggle {
+  --handle-background: #e0e6f8;
+  --handle-background-checked: #fff;
+  --background: rgba(255, 255, 255, 0.15);
+  --background-checked: #2f80ed;
+  transform: scale(0.95);
+}
+
+/* 🧩 Mobile-friendly tweak */
+@media (max-width: 576px) {
+  ion-card-content ion-toggle {
+    font-size: 0.9rem;
+    padding: 4px 6px;
+  }
+}
+
+/* 🎯 Better visibility for metrics */
+.metrics {
+  margin-top: 12px;
+  text-align: center;
+
+  ion-card-subtitle {
+    font-weight: 600;
+    margin: 4px 0;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+  }
+
+  ion-card-subtitle:nth-child(1) {
+    color: #00e676 !important; /* Eye Closure – bright green */
+  }
+
+  ion-card-subtitle:nth-child(2) {
+    color: #2f80ed !important; /* Blink Rate – vivid blue */
+  }
+
+  ion-card-subtitle:nth-child(3) {
+    color: #ffb74d !important; /* Head Pose – amber/orange */
+  }
+}
+
+/* 🔸 Recent Events Styling */
+ion-list {
+  margin-top: 8px;
+}
+
+ion-item {
+  --inner-padding-end: 8px;
+  --background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  transition: background 0.2s ease;
+}
+
+ion-item:hover {
+  --background: rgba(255, 255, 255, 0.1);
+}
+
+ion-badge {
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  min-width: 72px;
+  text-align: center;
+  border-radius: 8px;
+  text-transform: uppercase;
+}
+
+ion-badge[color='danger'] {
+  background: #ff5252 !important;
+  color: #fff !important;
+}
+
+ion-badge[color='warning'] {
+  background: #fbc02d !important;
+  color: #000 !important;
+}
+
+ion-badge[color='medium'] {
+  background: #b0bec5 !important;
+  color: #1a1a1a !important;
+}
+
+ion-label h3 {
+  color: #f1f5fb;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+}
+
+ion-label p {
+  color: #9fc7ff;
+  font-size: 0.8rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* ✨ Optional: Smooth fade-in for new logs */
+ion-item {
+  animation: fadeInUp 0.25s ease;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

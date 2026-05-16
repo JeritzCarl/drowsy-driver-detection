@@ -1,0 +1,52 @@
+<ion-header translucent="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button fill="clear" color="light" (click)="goBack()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Alert Sound Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-radio-group [(ngModel)]="selectedPath">
+      <ion-item *ngFor="let s of sounds">
+        <ion-label>{{ s.name }}</ion-label>
+        <ion-radio slot="start" [value]="s.path"></ion-radio>
+
+        <ion-button
+          fill="outline"
+          color="medium"
+          size="small"
+          (click)="previewSound(s.path)"
+        >
+          Preview
+        </ion-button>
+
+        <ion-button
+          color="success"
+          size="small"
+          (click)="selectSound(s.path)"
+          [disabled]="selectedPath === s.path"
+        >
+          Select
+        </ion-button>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-button expand="block" color="primary" (click)="pickLocalSound()">
+    📂 Choose from Device
+  </ion-button>
+
+  <!-- ✅ NEW: System ringtone picker
+  <ion-button expand="block" color="secondary" (click)="pickSystemRingtone()">
+    🎵 Choose System Ringtone
+  </ion-button> -->
+
+  <ion-button expand="block" color="danger" (click)="testAlert()">
+    🔊 Test Alert
+  </ion-button>
+</ion-content>

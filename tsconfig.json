@@ -1,0 +1,55 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    /* 🌐 Base & Output */
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+
+    /* ✅ Compatibility & Imports */
+    "module": "es2022",
+    "moduleResolution": "node",
+    "target": "es2022",
+    "lib": ["es2022", "dom"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "importHelpers": true,
+
+    /* 🧠 TypeScript Safety (relaxed for TFJS) */
+    "strict": false,
+    "noImplicitOverride": false,
+    "noImplicitReturns": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noFallthroughCasesInSwitch": false,
+
+    /* ⚙️ Decorators & Metadata */
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+
+    /* 🧩 Node & TensorFlow Fixes */
+    "types": ["node"],
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* 🧾 Debugging */
+    "sourceMap": true,
+    "declaration": false
+  },
+
+  "angularCompilerOptions": {
+    /* 💉 Angular Template Relaxation */
+    "strictTemplates": false,
+    "strictInjectionParameters": false,
+    "strictInputAccessModifiers": false,
+
+    /* 🧩 TensorFlow Type Compatibility */
+    "enableI18nLegacyMessageIdFormat": false,
+    "disableTypeScriptVersionCheck": true,
+    "compilationMode": "full"
+  },
+
+  /* 📁 Include / Exclude Paths */
+  "include": ["src/**/*.ts", "src/typings.d.ts"],
+  "exclude": ["node_modules", "dist", "tmp"]
+}
